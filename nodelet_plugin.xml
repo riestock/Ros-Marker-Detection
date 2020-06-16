@@ -1,0 +1,7 @@
+<library path="lib/libmarker_detection">
+  <class name="marker_detection/DetectionArucoNodelet" type="marker_detection::DetectionArucoNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      todo
+    </description>
+  </class>
+</library>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<launch>
+	
+  <arg name="camDeviceName"       		default="camera"/>
+	<arg name="image_in" 								default="/$(arg camDeviceName)/color/image_raw"/>
+	<arg name="camera_info_in" 					default="/$(arg camDeviceName)/color/camera_info"/>
+	<arg name="out_topic_prefix" 				default="/"/>
+	<arg name="targetFrameSuffix" 			default="_link"/>		
+	<arg name="opticalFrameSuffix" 			default="_color_optical_frame"/>
+	<arg name="genericMarkerName" 			default="true"/>
+	<arg name="markerIsChild" 					default="false"/>
+	<arg name="fileDetectorParams"			default="$(optenv HOME)/.ros/detector_params.yml"/>
+	<arg name="marker_size" 						default="0.27"/>
+	<arg name="dictionary_id" 					default="0"/>
+	<arg name="marker_id" 							default="4"/>
+	<arg name="showRejected" 						default="false"/>
+	<arg name="debug"				 						default="false"/>
+	<arg name="rviz" 										default="false"/>
+	<arg name="rate" 										default="10.0"/>
+
+	<group ns="$(arg camDeviceName)">
+
+		<include file="$(find marker_detection)/launch/markerdetection.launch">
+			<arg name="camDeviceName" 					value="$(arg camDeviceName)"/>
+			<arg name="fileDetectorParams" 			value="$(arg fileDetectorParams)"/>
+			<arg name="rate" 						    		value="$(arg rate)" />
+			<arg name="image_in" 								value="$(arg image_in)" />
+			<arg name="camera_info_in" 					value="$(arg camera_info_in)"/>
+			<arg name="out_topic_prefix" 				value="$(arg out_topic_prefix)"/>
+			<arg name="targetFrameSuffix" 			value="$(arg targetFrameSuffix)"/>
+			<arg name="opticalFrameSuffix" 			value="$(arg opticalFrameSuffix)"/>
+			<arg name="genericMarkerName" 			value="$(arg genericMarkerName)"/>
+			<arg name="markerIsChild" 					value="$(arg markerIsChild)"/>
+			<arg name="markerSize" 							value="$(arg marker_size)"/>
+			<arg name="dictionaryId" 						value="$(arg dictionary_id)"/>
+			<arg name="markerId" 								value="$(arg marker_id)"/>
+			<arg name="showRejected" 						value="$(arg showRejected)"/>
+			<arg name="debug" 									value="$(arg debug)"/>
+		</include>
+
+	</group>
+</launch>

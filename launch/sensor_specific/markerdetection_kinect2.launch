@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<launch>
+	<arg name="device_id" />
+  <arg name="camDeviceName"       		default="device_kinect2_$(arg device_id)"/>
+	<arg name="image_in" 								default="/$(arg camDeviceName)/hd/image_color"/>
+	<arg name="camera_info_in" 					default="/$(arg camDeviceName)/hd/camera_info"/>
+	<arg name="out_topic_prefix" 				default="/"/>
+	<arg name="targetFrameSuffix" 			default="_link"/>		
+	<arg name="opticalFrameSuffix" 			default="_rgb_optical_frame"/>
+	<arg name="genericMarkerName" 			default="true"/>
+	<arg name="markerIsChild" 					default="false"/>
+	<arg name="fileDetectorParams"			default="$(optenv HOME)/.ros/detector_params.yml"/>
+	<arg name="markerSize" 							default="0.27"/>
+	<arg name="dictionaryId" 						default="0"/>
+	<arg name="markerId" 								default="4"/>
+	<arg name="showRejected" 						default="false"/>
+	<arg name="debug"				 						default="false"/>
+	<arg name="rviz" 										default="false"/>
+	<arg name="rate" 										default="10.0"/>
+
+	<group ns="$(arg camDeviceName)">
+
+		<include file="$(find marker_detection)/launch/markerdetection.launch">
+			<arg name="camDeviceName" 					value="$(arg camDeviceName)"/>
+			<arg name="fileDetectorParams" 			value="$(arg fileDetectorParams)"/>
+			<arg name="rate" 						    		value="$(arg rate)" />
+			<arg name="image_in" 								value="$(arg image_in)" />
+			<arg name="camera_info_in" 					value="$(arg camera_info_in)"/>
+			<arg name="out_topic_prefix" 				value="$(arg out_topic_prefix)"/>
+			<arg name="targetFrameSuffix" 			value="$(arg targetFrameSuffix)"/>
+			<arg name="opticalFrameSuffix" 			value="$(arg opticalFrameSuffix)"/>
+			<arg name="genericMarkerName" 			value="$(arg genericMarkerName)"/>
+			<arg name="markerIsChild" 					value="$(arg markerIsChild)"/>
+			<arg name="markerSize" 							value="$(arg markerSize)"/>
+			<arg name="dictionaryId" 						value="$(arg dictionaryId)"/>
+			<arg name="markerId" 								value="$(arg markerId)"/>
+			<arg name="showRejected" 						value="$(arg showRejected)"/>
+			<arg name="debug" 									value="$(arg debug)"/>
+		</include>
+
+	</group>
+</launch>

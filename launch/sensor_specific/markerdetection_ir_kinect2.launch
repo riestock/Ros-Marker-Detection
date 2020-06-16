@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<launch>
+
+	<arg name="device_id" />
+  <arg name="camDeviceName"       default="device_kinect2_$(arg device_id)"/>
+	<!-- <arg name="image_in" 						default="/$(arg camDeviceName)/hd/image_color"/> -->
+	<!-- <arg name="image_in" 						default="/$(arg camDeviceName)/sd/image_ir"/> -->
+	<arg name="image_in" 						default="/$(arg camDeviceName)/qhd/image_mono"/>
+	<arg name="img_encoding" 				default="mono8"/>
+	<!-- <arg name="image_in" 						default="/multisensor/$(arg camDeviceName)/img_rgb_rect"/> -->
+	<arg name="camera_info_in" 			default="/$(arg camDeviceName)/hd/camera_info"/>
+	<arg name="markerSize" 					default="0.196"/>
+	<arg name="dictionaryId" 				default="0"/>
+	<arg name="debug"				 				default="false"/>
+	<arg name="rviz" 								default="false"/>
+	<arg name="calib" 							default="false"/>
+	<arg name="rate" 								default="1.0"/>
+
+	<group ns="$(arg camDeviceName)">
+
+		<include file="$(find marker_detection)/launch/markerdetection.launch">
+			<arg name="camDeviceName" 			value="$(arg camDeviceName)"/>
+			<arg name="rate" 								value="$(arg rate)" />
+			<arg name="image_in" 						value="$(arg image_in)" />
+			<!-- <arg name="img_encoding" 				value="$(arg img_encoding)" /> -->
+	    <arg name="camera_info_in" 			value="$(arg camera_info_in)"/>
+			<arg name="markerSize" 					value="$(arg markerSize)"/>
+			<arg name="dictionaryId" 				value="$(arg dictionaryId)"/>
+			<arg name="debug" 							value="$(arg debug)"/>
+		</include>
+
+	</group>
+</launch>

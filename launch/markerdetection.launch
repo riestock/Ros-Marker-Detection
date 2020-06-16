@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- manager -->
+  <arg name="use_nodelet" default="true"/>
+  <arg name="start_manager" default="true"/>
+  <arg name="manager" default="standalone_nodelet"/>
+
+  <arg name="device_name" />
+
+  <arg name="topic_sub_image" />
+  <arg name="topic_sub_camera_info" />
+  <arg name="target_frame_suffix" />
+  <arg name="optical_frame_suffix" />
+
+  <!-- generic params -->
+  <arg name="debug"		                  default="false"/>
+  <arg name="debug_window"		          default="false"/>
+  <arg name="rate" 			                default="10"/>
+
+  <!-- marker detection params-->
+  <arg name="file_detector_params" 			default="$(find marker_detection)/detector_params.yml"/>
+  <arg name="image_encoding"				 		default="color"/>
+  <arg name="generic_marker_name"		    default="true"/>
+  <arg name="show_rejected_marker" 			default="false"/>
+  <arg name="dictionary_id" 					  default="0"/>
+  <arg name="marker_id" 				        default="3"/>
+  <arg name="marker_size" 						  default="0.071"/>
+  <arg name="offset_rx" 					      default="0.0"/>
+  <arg name="offset_ry" 				        default="0.0"/>
+  <arg name="offset_rz" 						    default="0.0"/>
+
+  <!-- tf params -->
+  <arg name="publish_tranform" 	        default="true"/>
+  <arg name="marker_is_child" 	        default="false"/>
+
+
+  <node pkg="nodelet"
+        type="nodelet"
+        name="$(arg manager)"
+        args="manager"
+        if="$(arg start_manager)"
+        output="screen"/>
+
+  <node pkg="nodelet"
+        type="nodelet"
+        name="DetectionArucoNodelet"
+        args="load marker_detection/DetectionArucoNodelet $(arg manager)"
+        if="$(arg use_nodelet)"
+        output="screen">
+    <param name="device_name" 			        value="$(arg device_name)"/>
+    <param name="topic_sub_image" 	        value="$(arg topic_sub_image)"/>
+    <param name="topic_sub_camera_info" 		value="$(arg topic_sub_camera_info)" />
+    <param name="optical_frame_suffix" 		  value="$(arg optical_frame_suffix)"/>
+    <param name="target_frame_suffix" 			value="$(arg target_frame_suffix)"/>
+    <param name="debug" 							      value="$(arg debug)" />
+    <param name="debug_window" 							value="$(arg debug_window)" />
+    <param name="rate" 			                value="$(arg rate)" />
+    <param name="generic_marker_name" 	    value="$(arg generic_marker_name)" />
+    <param name="show_rejected_marker" 	    value="$(arg show_rejected_marker)"/>
+    <param name="file_detector_params" 	    value="$(arg file_detector_params)"/>
+    <param name="image_encoding" 	          value="$(arg image_encoding)"/>
+    <param name="dictionary_id" 		        value="$(arg dictionary_id)"/>
+    <param name="marker_id" 					      value="$(arg marker_id)"/>
+    <param name="marker_size" 						  value="$(arg marker_size)"/>
+    <param name="publish_tranform" 		      value="$(arg publish_tranform)"/>
+    <param name="marker_is_child" 				  value="$(arg marker_is_child)"/>
+    <param name="offset_rx" 						    value="$(arg offset_rx)"/>
+    <param name="offset_ry" 		            value="$(arg offset_ry)"/>
+    <param name="offset_rz" 				        value="$(arg offset_rz)"/>
+  </node>
+
+  <node pkg="marker_detection"
+        type="detection_aruco"
+        name="DetectionAruco"
+        unless="$(arg use_nodelet)"
+        output="screen">
+    <param name="device_name" 			        value="$(arg device_name)"/>
+    <param name="topic_sub_image" 	        value="$(arg topic_sub_image)"/>
+    <param name="topic_sub_camera_info" 		value="$(arg topic_sub_camera_info)" />
+    <param name="optical_frame_suffix" 		  value="$(arg optical_frame_suffix)"/>
+    <param name="target_frame_suffix" 			value="$(arg target_frame_suffix)"/>
+    <param name="debug" 							      value="$(arg debug)" />
+    <param name="debug_window" 							value="$(arg debug_window)" />
+    <param name="rate" 			                value="$(arg rate)" />
+    <param name="generic_marker_name" 	    value="$(arg generic_marker_name)" />
+    <param name="show_rejected_marker" 	    value="$(arg show_rejected_marker)"/>
+    <param name="file_detector_params" 	    value="$(arg file_detector_params)"/>
+    <param name="image_encoding" 	          value="$(arg image_encoding)"/>
+    <param name="dictionary_id" 		        value="$(arg dictionary_id)"/>
+    <param name="marker_id" 					      value="$(arg marker_id)"/>
+    <param name="marker_size" 						  value="$(arg marker_size)"/>
+    <param name="publish_tranform" 		      value="$(arg publish_tranform)"/>
+    <param name="marker_is_child" 				  value="$(arg marker_is_child)"/>
+    <param name="offset_rx" 						    value="$(arg offset_rx)"/>
+    <param name="offset_ry" 		            value="$(arg offset_ry)"/>
+    <param name="offset_rz" 				        value="$(arg offset_rz)"/>
+  </node>
+
+</launch>

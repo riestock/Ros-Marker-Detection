@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<launch>
+	<arg name="device_id"									default="1"/>
+  <arg name="device_name"       				default="device_d415_$(arg device_id)"/>
+	<arg name="topic_sub_image" 					default="/$(arg device_name)/color/image_raw"/>
+	<arg name="topic_sub_camera_info" 		default="/$(arg device_name)/color/camera_info"/>
+	<arg name="target_frame_suffix" 			default="_link"/>
+	<arg name="optical_frame_suffix" 			default="_color_optical_frame"/>
+
+	<!-- generic params -->
+	<arg name="debug"		                  default="true"/>
+	<arg name="debug_window"		          default="true"/>
+	<arg name="rate" 			                default="10"/>
+
+	<!-- marker detection params-->
+<!--	<arg name="file_detector_params" 			default="$(optenv HOME)/.ros/detector_params.yml"/>-->
+	<arg name="file_detector_params" 			default="$(find marker_detection)/detector_params.yml"/>
+	<arg name="image_encoding"				 		default="bgr8"/>
+	<arg name="show_rejected_marker" 			default="false"/>
+	<arg name="dictionary_id" 					  default="0"/>
+	<arg name="marker_id" 				        default="3"/>
+	<arg name="marker_size" 						  default="0.30"/>
+
+	<!-- tf params -->
+	<arg name="publish_tranform" 	        default="true"/>
+	<arg name="marker_is_child" 	        default="true"/>
+	<arg name="generic_marker_name"		    default="true"/>
+
+	<group ns="$(arg device_name)/marker_detection">
+
+		<include file="$(find marker_detection)/launch/markerdetection.launch">
+			<arg name="device_name" 			        value="$(arg device_name)"/>
+			<arg name="topic_sub_image" 	        value="$(arg topic_sub_image)"/>
+			<arg name="topic_sub_camera_info" 		value="$(arg topic_sub_camera_info)" />
+			<arg name="optical_frame_suffix" 		  value="$(arg optical_frame_suffix)"/>
+			<arg name="target_frame_suffix" 			value="$(arg target_frame_suffix)"/>
+			<!-- generic params -->
+			<arg name="debug" 							      value="$(arg debug)" />
+			<arg name="debug_window" 							value="$(arg debug_window)" />
+			<arg name="rate" 			                value="$(arg rate)" />
+			<!-- marker detection params-->
+			<arg name="file_detector_params" 	    value="$(arg file_detector_params)"/>
+			<arg name="image_encoding" 	          value="$(arg image_encoding)"/>
+			<arg name="generic_marker_name" 	    value="$(arg generic_marker_name)" />
+			<arg name="show_rejected_marker" 	    value="$(arg show_rejected_marker)"/>
+			<arg name="dictionary_id" 		        value="$(arg dictionary_id)"/>
+			<arg name="marker_id" 					      value="$(arg marker_id)"/>
+			<arg name="marker_size" 						  value="$(arg marker_size)"/>
+			<!-- tf params -->
+			<arg name="publish_tranform" 		      value="$(arg publish_tranform)"/>
+			<arg name="marker_is_child" 				  value="$(arg marker_is_child)"/>
+		</include>
+
+	</group>
+</launch>
